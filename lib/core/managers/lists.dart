@@ -1,12 +1,10 @@
 import 'package:ecommerce_training/core/managers/images.dart';
 import 'package:flutter/cupertino.dart';
-
 import '../../models/on_bording_module.dart';
-
 import '../../../screens/module/main_4_page/cart_page.dart';
 import '../../../screens/module/main_4_page/home_page.dart';
 import '../../../screens/module/main_4_page/profile_page.dart';
-import '../../../screens/module/main_4_page/search_page.dart';
+import '../../../screens/module/main_4_page/favourite_page.dart';
 
 final List<OnBordingModel> onbording = [
   OnBordingModel(
@@ -24,7 +22,7 @@ final List<OnBordingModel> onbording = [
 ];
 final List<Widget> pages = [
   const HomePage(),
-  const SearchPage(),
-  const CartPage(),
+  const FavouriteScreen(),
+  CartScreen(),
   const ProfilePage()
 ];

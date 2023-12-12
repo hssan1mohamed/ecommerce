@@ -1,7 +1,8 @@
+import 'package:ecommerce_training/core/managers/colors.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch:Colors.indigo,
+  primarySwatch: AppColors.primaryMaterialColor,
   appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     backgroundColor: Colors.white,

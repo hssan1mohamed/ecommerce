@@ -64,9 +64,9 @@ class OnBoardingScreen extends StatelessWidget {
                   SmoothPageIndicator(
                     controller: onBordingController,
                     count: onbording.length,
-                    effect: ExpandingDotsEffect(
+                    effect:const ExpandingDotsEffect(
                         dotColor: Colors.black,
-                        activeDotColor: buttonColor,
+                        activeDotColor: AppColors.primaryColor,
                         dotHeight: 7,
                         expansionFactor: 4,
                         dotWidth: 5,
@@ -82,7 +82,7 @@ class OnBoardingScreen extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.only(right: 18.0, left: 18),
                       child: DefaultButton(
-                          backgroundColor: buttonColor,
+                          backgroundColor: AppColors.primaryColor,
                           buttonWidget: const Text('Get Start',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20)),
@@ -93,7 +93,7 @@ class OnBoardingScreen extends StatelessWidget {
                   : Padding(
                       padding: const EdgeInsets.only(right: 18.0, left: 18),
                       child: DefaultButton(
-                          backgroundColor: buttonColor,
+                          backgroundColor: AppColors.primaryColor,
                           buttonWidget: const Text('Next',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 20)),

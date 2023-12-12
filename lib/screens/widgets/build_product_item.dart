@@ -1,14 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_training/core/managers/colors.dart';
+import 'package:ecommerce_training/screens/module/product_details_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../../core/controllers/cart_cubit/cart_cubit.dart';
+import '../../core/managers/show_snakbar.dart';
 import '../../models/product_model.dart';
 
 Widget buildProductItem(Product product,context) =>InkWell(
-  onTap:(){},
+  onTap:(){
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductDetailsPage(product: product,)));
+  },
   child:   Padding(
     padding: const EdgeInsets.all(8.0),
-    child: Container(
+    child: SizedBox(
         width: 180,
         height: 200,
         //color: Colors.green,
@@ -19,9 +24,9 @@ Widget buildProductItem(Product product,context) =>InkWell(
                 children: [
                   Expanded(
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: HexColor('#07094D'),
-                          borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                          color:AppColors.textColor ,//HexColor('#07094D'),
+                          borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20))),
                       height: 125,
                       child: Center(
@@ -41,23 +46,25 @@ Widget buildProductItem(Product product,context) =>InkWell(
                       children: [
                         Container(
                           width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.only(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(20)),
-                            color: mainColor,
+                            color: AppColors.primaryColor,
                           ),
                           height: 125,
                           child: Padding(
                             padding:const EdgeInsets.only(right: 30, left: 10),
-                            child: CachedNetworkImage(
-                                imageUrl: product.image!,
-                                imageBuilder: (context,imageProvider)=>Image(image: imageProvider),
-                                placeholder:(context,url)=>const Center(child: CircularProgressIndicator(color: Colors.black,),),
-                                errorWidget: (context,url,error){
-                                  print(error.toString());
-                                  return Center(child: CircularProgressIndicator(color: HexColor('#07094D'),),);
-                                }
-                            ),
+
+                              child: CachedNetworkImage(
+                                  imageUrl: product.image!,
+                                  imageBuilder: (context,imageProvider)=>Image(image: imageProvider),
+                                  placeholder:(context,url)=>const Center(child: CircularProgressIndicator(color: Colors.black,),),
+                                  errorWidget: (context,url,error){
+                                    print(error.toString());
+                                    return Center(child: CircularProgressIndicator(color: HexColor('#07094D'),),);
+                                  }
+                              ),
+
                           ),
                         ),
                       ],
@@ -98,10 +105,10 @@ Widget buildProductItem(Product product,context) =>InkWell(
                               Expanded(
                                 child: Container(
                                     height: 30,
-                                    decoration: BoxDecoration(
-                                        color:redColor,
+                                    decoration: const BoxDecoration(
+                                        color:AppColors.redColor,
                                         borderRadius:
-                                        const BorderRadius.horizontal(
+                                        BorderRadius.horizontal(
                                             left: Radius.circular(20))),
                                     child: const Center(
                                         child: Text(
@@ -138,14 +145,15 @@ Widget buildProductItem(Product product,context) =>InkWell(
                           const Spacer(),
                           Container(
                               height: 50,
-                              decoration: BoxDecoration(
-                                  color: buttonColor ,
-                                  borderRadius: const BorderRadius.only(
+                              decoration: const BoxDecoration(
+                                  color: AppColors.primaryColor ,
+                                  borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(20),
                                       bottomRight: Radius.circular(20))),
                               child: MaterialButton(
                                 onPressed: () {
-                              //    CartCubit.get(context).addToCart(product.sId);
+                                  CartCubit.get(context).addToCart(product.sId);
+                                  ShowSnakbar(context, 'Add to Cart success');
                                 },
                                 child: Text(
                                   'Buy'.toUpperCase(),

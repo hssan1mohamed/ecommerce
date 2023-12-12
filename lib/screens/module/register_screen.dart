@@ -6,8 +6,8 @@ import 'package:ecommerce_training/core/managers/textStyle.dart';
 import 'package:ecommerce_training/screens/module/homeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../../core/managers/nav.dart';
+import '../../core/managers/show_snakbar.dart';
 import '../../core/managers/values.dart';
 import '../../core/network/local/cache_helper.dart';
 import '../widgets/loading_page.dart';
@@ -30,17 +30,7 @@ class RegisterScreen extends StatelessWidget {
         // TODO: implement listener
         if (state is RegisterDoneState) {
           if (state.userModel.status == "success") {
-            print(state.userModel.message);
-            Fluttertoast.showToast(
-                msg: state.userModel.message!,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: buttonColor,
-                textColor: Colors.white,
-                fontSize: 16.0);
-            //  showToast(state.userModel.message!, ToastStates.SUCCESS);
-            print(state.userModel.user!.token);
+            ShowSnakbar(context,state.userModel.message!);
             CacheHelper.saveData(
                     key: 'userId', value: state.userModel.user!.nationalId)
                 .then((value) {
@@ -53,18 +43,11 @@ class RegisterScreen extends StatelessWidget {
               token = state.userModel.user!.token!;
               navigateAndFinishThisScreen(
                 context,
-                HomeScreen(),
+                const HomeScreen(),
               );
             });
           } else {
-            Fluttertoast.showToast(
-                msg: state.userModel.message!,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 10,
-                backgroundColor: buttonColor,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            ShowSnakbar(context,state.userModel.message! );
           }
         }
       },
@@ -135,7 +118,7 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                                 DefaultFieldForm(
                                   labelStyle:
-                                  TextStyle(color: Colors.black),
+                                  const TextStyle(color: Colors.black),
                                   controller: emailController,
                                   keyboard: TextInputType.emailAddress,
                                   valid: (value) {
@@ -177,7 +160,7 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                                 DefaultFieldForm(
                                   labelStyle:
-                                  TextStyle(color: Colors.black),
+                                  const TextStyle(color: Colors.black),
                                   controller: passwordController,
                                   keyboard: TextInputType.visiblePassword,
                                   valid: (value) {
@@ -223,53 +206,17 @@ class RegisterScreen extends StatelessWidget {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         if (formKey.currentState!.validate() ) {
-                                         if(!emailController.text.contains('@')){
-                                           Fluttertoast.showToast(
-                                               msg: 'please sure email contain @gmail.com',
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.CENTER,
-                                               timeInSecForIosWeb: 10,
-                                               backgroundColor: buttonColor,
-                                               textColor: Colors.white,
-                                               fontSize: 16.0);
+                                         if(!emailController.text.contains('@')||emailController.text.contains('.com')){
+                                           ShowSnakbar(context,'please sure email contain @ and .com' );
                                          }else if(phoneController.text.length != 11){
-                                           Fluttertoast.showToast(
-                                               msg: 'please sure number phone at  11 number',
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.CENTER,
-                                               timeInSecForIosWeb: 10,
-                                               backgroundColor: buttonColor,
-                                               textColor: Colors.white,
-                                               fontSize: 16.0);
+                                           ShowSnakbar(context,'please sure number phone at  11 number' );
                                          }else if(passwordController.text.length < 8){
-                                           Fluttertoast.showToast(
-                                               msg: 'please sure password at last 8',
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.CENTER,
-                                               timeInSecForIosWeb: 10,
-                                               backgroundColor: buttonColor,
-                                               textColor: Colors.white,
-                                               fontSize: 16.0);
+                                           ShowSnakbar(context, 'please sure password at last 8');
                                          }else if(nationalController.text.length != 14){
-                                           Fluttertoast.showToast(
-                                               msg: 'please sure national id at  14 number',
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.CENTER,
-                                               timeInSecForIosWeb: 10,
-                                               backgroundColor: buttonColor,
-                                               textColor: Colors.white,
-                                               fontSize: 16.0);
+                                           ShowSnakbar(context,'please sure national id at  14 number' );
                                          }else if(cubit.userImage==null){
-                                           Fluttertoast.showToast(
-                                               msg: 'please sure image profile',
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.CENTER,
-                                               timeInSecForIosWeb: 10,
-                                               backgroundColor: buttonColor,
-                                               textColor: Colors.white,
-                                               fontSize: 16.0);
-                                         }
-                                         else{
+                                           ShowSnakbar(context,'please sure image profile' );
+                                         } else{
                                           cubit.userRegister(
                                             email: emailController.text,
                                             name: nameController.text,
@@ -284,7 +231,7 @@ class RegisterScreen extends StatelessWidget {
                                         shape: const StadiumBorder(),
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 16),
-                                        backgroundColor: buttonColor,
+                                        backgroundColor: AppColors.primaryColor,
                                       ),
                                       child: const Text(
                                         "Sign up",
@@ -300,10 +247,10 @@ class RegisterScreen extends StatelessWidget {
                                           navigateAndFinishThisScreen(
                                               context, LoginScreen());
                                         },
-                                        child:  Text(
+                                        child: const Text(
                                           "Login",
                                           style:
-                                              TextStyle(color: buttonColor),
+                                              TextStyle(color: AppColors.primaryColor),
                                         ))
                                   ],
                                 )
@@ -316,6 +263,7 @@ class RegisterScreen extends StatelessWidget {
       },
     );
   }
+
 }
 
 
@@ -339,7 +287,7 @@ class ImageWidget extends StatelessWidget {
       },
       child: CircleAvatar(
         radius: 65,
-        backgroundColor:buttonColor,
+        backgroundColor:AppColors.primaryColor,
         child: CircleAvatar(
           radius: 60,
           backgroundColor: Colors.white,

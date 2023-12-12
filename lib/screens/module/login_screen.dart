@@ -1,5 +1,6 @@
 import 'package:ecommerce_training/core/controllers/login_cubit/login_cubit.dart';
 import 'package:ecommerce_training/core/managers/nav.dart';
+import 'package:ecommerce_training/core/managers/show_snakbar.dart';
 import 'package:ecommerce_training/screens/module/homeScreen.dart';
 import 'package:ecommerce_training/screens/module/register_screen.dart';
 import 'package:ecommerce_training/screens/widgets/loading_page.dart';
@@ -25,17 +26,7 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginDoneState) {
           if (state.userModel.status == "success") {
-            print(state.userModel.message);
-            Fluttertoast.showToast(
-                msg: state.userModel.message!,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: buttonColor,
-                textColor: Colors.white,
-                fontSize: 16.0);
-            //showToast(state.userModel.message!, ToastStates.SUCCESS);
-            print(state.userModel.user!.token);
+            ShowSnakbar(context, state.userModel.message!);
             CacheHelper.saveData(
                     key: 'userId', value: state.userModel.user!.nationalId)
                 .then((value) {
@@ -48,18 +39,11 @@ class LoginScreen extends StatelessWidget {
               token = state.userModel.user!.token!;
               navigateAndFinishThisScreen(
                 context,
-                HomeScreen(),
+                const HomeScreen(),
               );
             });
           } else {
-            Fluttertoast.showToast(
-                msg: state.userModel.message!,
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 10,
-                backgroundColor: buttonColor,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            ShowSnakbar(context, state.userModel.message!);
           }
         }
       },
@@ -90,9 +74,10 @@ class LoginScreen extends StatelessWidget {
     return const Column(
       children: [
         Text(
-          "Welcome Back",
+          "Login",
           style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         ),
+        SizedBox(height: 15,),
         Text("Enter your credential to login"),
       ],
     );
@@ -103,7 +88,7 @@ class LoginScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DefaultFieldForm(
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black),
           controller: emailController,
           keyboard: TextInputType.emailAddress,
           valid: (value) {
@@ -120,7 +105,7 @@ class LoginScreen extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         DefaultFieldForm(
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: const TextStyle(color: Colors.black),
           controller: passwordController,
           keyboard: TextInputType.visiblePassword,
           valid: (value) {
@@ -140,34 +125,17 @@ class LoginScreen extends StatelessWidget {
           onPressed: () {
             if (formKey.currentState!.validate()) {
               if (!emailController.text.contains('@')) {
-                Fluttertoast.showToast(
-                    msg: 'please sure email contain @gmail.com',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 10,
-                    backgroundColor: buttonColor,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                ShowSnakbar(context, 'please sure email contain @gmail.com');
               } else if (passwordController.text.length < 8) {
-                Fluttertoast.showToast(
-                    msg: 'please sure password at last 8',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER,
-                    timeInSecForIosWeb: 10,
-                    backgroundColor: buttonColor,
-                    textColor: Colors.white,
-                    fontSize: 16.0);
+                ShowSnakbar(context, 'please sure password at last 8');
               } else {
-                print(emailController.text);
-                print(passwordController.text);
                 try {
                   cubit.userLogin(
                     email: emailController.text,
                     password: passwordController.text,
                   );
-                  print('555555555555555555');
                 } on Exception catch (e) {
-                  print(e);
+                  ShowSnakbar(context,e.toString());
                 }
               }
             }
@@ -175,7 +143,7 @@ class LoginScreen extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape: const StadiumBorder(),
             padding: const EdgeInsets.symmetric(vertical: 16),
-            backgroundColor: Colors.purple,
+            backgroundColor: AppColors.primaryColor,
           ),
           child: const Text(
             "Login",
@@ -190,14 +158,14 @@ class LoginScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Dont have an account? "),
+        const Text("Do not have an account? "),
         TextButton(
             onPressed: () {
               navigateAndFinishThisScreen(context, RegisterScreen());
             },
             child: const Text(
               "Sign Up",
-              style: TextStyle(color: Colors.purple),
+              style: TextStyle(color: AppColors.primaryColor,),
             ))
       ],
     );

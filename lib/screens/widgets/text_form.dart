@@ -37,6 +37,8 @@ class DefaultFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: AppColors.primaryColor,
+      autocorrect: true,
       onTapOutside: (event)=>FocusScope.of(context).unfocus(),
       validator: valid,
       controller: controller,
@@ -46,9 +48,9 @@ class DefaultFieldForm extends StatelessWidget {
               borderRadius: BorderRadius.circular(18),
               borderSide: BorderSide.none
           ),
-          fillColor: mainColor,//Colors.purple.withOpacity(0.1),
+          fillColor: AppColors.backgroundColor,//Colors.purple.withOpacity(0.1),
           filled: true,
-          prefixIcon:  Icon(prefix)),
+          prefixIcon:  Icon(prefix,),),
       keyboardType: keyboard,
       onFieldSubmitted: onSubmit,
       onChanged:onchange,

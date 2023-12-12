@@ -35,7 +35,7 @@ class erroeWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 18.0, left: 18),
             child: DefaultButton(
-                backgroundColor: buttonColor,
+                backgroundColor: AppColors.primaryColor,
                 buttonWidget: const Text('Try Again',
                     style:
                     TextStyle(color: Colors.white, fontSize: 20)),
