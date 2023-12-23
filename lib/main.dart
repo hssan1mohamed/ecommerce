@@ -4,6 +4,7 @@ import 'package:ecommerce_training/core/controllers/login_cubit/login_cubit.dart
 import 'package:ecommerce_training/core/controllers/onbording_cubit/onbording_cubit.dart';
 import 'package:ecommerce_training/core/controllers/pages_cubit/pages_cubit.dart';
 import 'package:ecommerce_training/core/controllers/products_cubit/products_cubit.dart';
+import 'package:ecommerce_training/core/controllers/profile_cubit/profile_cubit.dart';
 import 'package:ecommerce_training/core/controllers/register_cubit/register_cubit.dart';
 import 'package:ecommerce_training/core/managers/values.dart';
 import 'package:ecommerce_training/core/network/local/cache_helper.dart';
@@ -75,6 +76,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => CartCubit(),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => ProfileCubit(),
           lazy: true,
         ),
       ],
